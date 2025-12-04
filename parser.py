@@ -19,7 +19,7 @@ def parse_email(msg: Union[Message, str]) -> Dict[str, Any]:
     if isinstance(msg, str):
         msg = message_from_string(msg)
 
-    # --- headers ---
+    # headers
     message_id = msg.get("Message-ID")
     subject    = msg.get("Subject", "")
     date_raw   = msg.get("Date")
@@ -33,11 +33,11 @@ def parse_email(msg: Union[Message, str]) -> Dict[str, Any]:
     to_addrs   = parse_addrs(to_raw)
     cc_addrs   = parse_addrs(cc_raw)
 
-    # --- body ---
+    # body
     body_raw   = get_text_from_email(msg)
     body_clean = strip_reply_chain(body_raw)
 
-    # --- attachments ---
+    # attachments
     attachment_names: List[str] = []
     for part in msg.walk():
         if part.get_content_disposition() == "attachment":
